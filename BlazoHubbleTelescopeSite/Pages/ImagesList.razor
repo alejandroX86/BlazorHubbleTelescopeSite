@@ -1,0 +1,98 @@
+﻿@page "/"
+
+@using Models 
+@using Services
+@inject IHubbleService HubbleService
+
+
+<h1>Telescope Snapshots</h1>
+
+
+@if(images == null)
+{
+
+    <p><em>Loding.......</em></p>
+
+}
+
+else 
+{
+
+
+
+
+
+
+<table>
+
+    <tbody>
+
+        @for (int i= 0; i < NumberOfRows; i++)
+
+
+        {
+
+                <tr>
+
+                    @foreach (var image in images.Skip(i * 5).Take(5)) 
+                    
+                    {
+                    
+                        <td>
+
+                            <div class="main-image-box">
+
+                                <a href="/videoDetails/@image.Id">
+                             <img src=@image.Image>
+
+                                    </a>
+                            </div>
+
+                            <div class="main-label-box">
+
+                                <span>@image.Name</span>
+
+                            </div>
+                        </td>
+
+                    
+                    }
+
+
+
+
+                </tr>                    
+                                    
+                   
+        
+        
+        }
+
+
+
+
+    </tbody>
+
+
+
+
+
+</table>
+
+
+}
+@code {
+
+
+    IEnumerable<HubbleImage> images = new List<HubbleImage>();
+
+    public int NumberOfRows { get; set; } = 10;
+
+    protected override  async  Task OnInitializedAsync()
+    {
+        await HubbleService.GetAllImages();
+    }
+
+
+
+}

@@ -1,0 +1,54 @@
+﻿@page "/videoDetails/{id:int}"
+@using Models
+@using Services
+@inject IHubbleService HubbleService
+
+<div>
+
+    @if (video == null)
+
+    {
+        <p><em>Loading..........</em></p>
+
+    }
+
+    else 
+    {
+    
+       <video  autoplay controls>
+
+           <source src=@video.Videos.FirstOrDefault().Url /> 
+
+       </video>
+    
+    }
+
+
+</div>
+
+@code {
+
+
+    [Parameter]
+
+
+    public int id { get; set; }
+
+
+    HubbleImage video;
+
+
+   protected override  async Task OnInitializedAsync()
+    {
+
+       if(id>0)
+        
+
+        video = await HubbleService.GetVideo(id);
+
+
+    }
+
+
+}
+
